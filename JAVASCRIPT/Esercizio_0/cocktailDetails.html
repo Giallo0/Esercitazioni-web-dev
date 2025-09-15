@@ -1,0 +1,73 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Compito #0</title>
+  </head>
+  <body class="bg-black text-orange-200 p-5">
+    <!-- <button onclick="history.back()">Indietro</button> -->
+    <h1 class="Titolo font-black text-4xl text-center"></h1>
+    <div class="flex flex-col items-center p-5">
+      <img class="w-[25rem]" src="" />
+      <div class="mt-5 mb-5">
+        <h3 class="font-bold text-2xl text-center">Categoria</h3>
+        <p id="categoria"></p>
+      </div>
+      <div class="mb-5">
+        <h3 class="font-bold text-2xl text-center">Ingredienti</h3>
+        <ul id="elencoIngredienti" class=""></ul>
+      </div>
+      <div>
+        <h3 class="font-bold text-2xl text-center">Ricetta</h3>
+        <p class="ricetta"></p>
+      </div>
+    </div>
+    <script>
+      const parametri = new URLSearchParams(window.location.search);
+      if (!parametri.has("id")) {
+        console.log("Dettaglio non disponibile");
+      } else {
+        const url =
+          "https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=" +
+          parametri.get("id");
+        fetch(url)
+          .then((response) => {
+            return response.json();
+          })
+          .then((json) => {
+            mostraDettaglio(json.drinks[0]);
+          })
+          .catch((e) => {
+            console.log("Errore: ", e);
+          });
+      }
+
+      function mostraDettaglio(drink) {
+        console.log(drink);
+        const titolo = document.querySelector(".titolo");
+        titolo.textContent = drink.strDrink;
+
+        const immagine = document.querySelector("img");
+        immagine.setAttribute("src", drink.strDrinkThumb);
+
+        const categoria = document.querySelector("#categoria");
+        categoria.textContent = drink.strCategory;
+
+        const listaIngredienti = document.querySelector("#elencoIngredienti");
+        for (let i = 1; i <= 15; i++) {
+          if (drink["strIngredient" + i] == null) {
+            break;
+          } else {
+            let ingr = document.createElement("li");
+            ingr.textContent = drink["strIngredient" + i];
+            listaIngredienti.appendChild(ingr);
+          }
+        }
+
+        const ricetta = document.querySelector(".ricetta");
+        ricetta.textContent = drink.strInstructionsIT;
+      }
+    </script>
+  </body>
+</html>

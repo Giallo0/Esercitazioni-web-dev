@@ -1,0 +1,52 @@
+<!--    Date in diversi formati
+    
+    Mandare a schermo la data di oggi formattata in modo differente utilizzando toLocateString() e le sue diverse opzioni.
+    
+    Creare un array di oggetti con diverse opzioni per la formattazione delle date. 
+    Per ogni oggetto dell'array creare un elemento h2 e mandarlo a schermo con la data formattata come segue:
+        * martedì 25/03/2025
+        * 05:59:01 PM
+        * mar 25/03/2025 17:59:01
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esercizio #1</title>
+</head>
+<body>
+    <script>
+        const today = new Date(); //Data e ora di oggi
+        const options = [
+            { //giorno della settimana giorno/mese/anno
+                weekday: 'long',
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            },
+            { //ora in formato AM/PM
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: true
+            },
+            { //ora in formato 24H
+                weekday: 'short',
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            }
+        ]
+        
+        options.forEach(option => {
+            let element = document.createElement('h2');
+            element.textContent = today.toLocaleString(undefined, option);
+            document.querySelector('body').appendChild(element);
+        });
+    </script>
+</body>
+</html>

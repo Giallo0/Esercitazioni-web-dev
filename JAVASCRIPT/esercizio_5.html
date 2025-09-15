@@ -1,0 +1,87 @@
+<!-- Creare Card da array di oggetti
+    Creare un array di oggetti che contiene delle proprietà come url dell'immagine, titolo e descrizione.
+    Con questi dati, generare dinamicamente delle card con i rispettivi dati.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esercizio #5</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div id="container" class="flex flex-wrap md:w-1/2 m-10 gap-2">
+        <!-- inizio card esempio -->
+        <!-- <div class="w-full ms:w-1/2 xl:w-1/3 shadow-xl">
+            <div class="bg-white rounded-lg overflow-hidden">
+                <img src="https://img.freepik.com/foto-gratuito/bellissimo-paesaggio-di-madre-natura_23-2148992406.jpg?t=st=1742986583~exp=1742990183~hmac=1897d05f3c0368c93c4c7b65ab6999e256932d97585f7e53af17938f353d4de6&w=996"
+                    alt="image"
+                    class="w-full" />
+                <div class="p-8 sm:p-9 md:p-7 xl:p-9 text-center">
+                    <h3 class="font-semibold text-dark text-xl">Titolo di prova</h3>
+                    <p class="text-base text-body-color leading-relaxed mb-7">
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Excepturi, veritatis explicabo! Aspernatur, dolor laborum 
+                        mollitia praesentium incidunt qui temporibus quae. Ullam harum fuga mollitia, error autem optio deserunt asperiores corrupti.
+                    </p>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <script>
+        let arrayProp = [
+            {
+                url: 'https://img.freepik.com/foto-gratuito/scimmia-macaco-nella-natura_475641-1447.jpg?t=st=1742987893~exp=1742991493~hmac=6e7d17ca43c241f5aa08cff3e6dcc3773a77bfac8424b447985e529c45cc5258&w=996',
+                title: 'Scimmia macaco',
+                description: 'Vive nella natura e si nutre di bacche per sopravvivere. La loro natura prevede pelo lungo e occhi marroni. Vivono nelle montagne del tibet e si arrampicano tra gli alberi'
+            },
+            {
+                url: 'https://img.freepik.com/foto-gratuito/luna-piena-nel-cielo-sopra-l-acqua-di-mare_23-2148282854.jpg?t=st=1742988016~exp=1742991616~hmac=66b4a0b4f0e724f14f7ea5091dfc79ca9b042f2503208b59ec78649cb12654a7&w=996',
+                title: 'Oceano',
+                description: 'Oceano blu tra le onde tu spicchi, il colore azzurro più blu del sole. La luce ti colora quelle tue sfumature e nel buio spaventi marinai agguerriti'
+            },
+            {
+                url: 'https://img.freepik.com/foto-gratuito/scimmia-macaco-nella-natura_475641-1447.jpg?t=st=1742987893~exp=1742991493~hmac=6e7d17ca43c241f5aa08cff3e6dcc3773a77bfac8424b447985e529c45cc5258&w=996',
+                title: 'Scimmia macaco',
+                description: 'Vive nella natura e si nutre di bacche per sopravvivere. La loro natura prevede pelo lungo e occhi marroni. Vivono nelle montagne del tibet e si arrampicano tra gli alberi'
+            }
+        ]
+        const container = document.querySelector('#container');
+        arrayProp.forEach(prop =>{
+            container.appendChild(newCard(prop));
+        })
+
+        function newCard(prop){
+            let card = document.createElement('div');
+            card.className = 'w-full ms:w-1/2 xl:w-1/3 shadow-xl';
+
+            let cardContainer = document.createElement('div');
+            cardContainer.className = 'bg-white rounded-lg overflow-hidden';
+            card.appendChild(cardContainer);
+            
+            let img = document.createElement('img');
+            img.src = prop.url;
+            img.alt = 'image';
+            img.className = 'w-full';
+            cardContainer.appendChild(img);
+            
+            let content = document.createElement('div');
+            content.className = 'p-8 sm:p-9 md:p-7 xl:p-9 text-center';
+            cardContainer.appendChild(content);
+            
+            let title = document.createElement('h3');
+            title.className = 'font-semibold text-dark text-xl';
+            title.textContent = prop.title;
+            content.appendChild(title);
+            
+            let description = document.createElement('p');
+            description.className = 'text-base text-body-color leading-relaxed mb-7';
+            description.textContent = prop.description;
+            content.appendChild(description);
+            
+            return card;
+        }
+    </script>
+</body>
+</html>

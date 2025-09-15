@@ -1,0 +1,99 @@
+<!-- Creare meccanica per mazzo di carte
+    Utilizzando la programmazione ad oggetti creare una classe per il mazzo e tutti i metodi necessari per mischiarlo, pescare e rimettere una carta in fondo.
+    Limitatevi all'inizio ad avere 13 carte, quindi dall'asso al re.
+
+    Utilizzate dei console.log per mandare a schermo la situazione del mazzo ad ogni operazione e le carte che pescate/rimettete nel mazzo.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esercizio #8</title>
+</head>
+<body>
+    <button id="mischia">Mescola</button>
+    <button id="pesca">Pesca</button>
+    <button id="scarta">Scarta</button>
+    <button id="mostraMano">Mostra mano</button>
+    <button id="mostraMazzo">Mostra mazzo</button>
+    <script>
+        class Mazzo{
+            pali = ['cuori', 'fiori', 'picche', 'quadri'];
+            valori = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K'];
+            mazzo = []
+            mano = []
+            
+            constructor(){
+                this.creaMazzo();
+            }
+
+            creaMazzo(){
+                this.valori.forEach(valore =>{
+                    this.mazzo.push(`${valore} ${this.pali[0]}`);
+                })
+            }
+
+            getMano(){
+                return this.mano;
+            }
+
+            getMazzo(){
+                return this.mazzo;
+            }
+
+            pesca(){
+                if (this.mazzo.length > 0){
+                    const carta = this.mazzo.shift();
+                    this.mano.push(carta);
+                    console.log('Carta pescata', carta);
+                }
+            }
+
+            scarta(){
+                if (this.mano.length > 0){
+                    const carta = this.mano.pop();
+                    this.mazzo.push(carta)
+                    console.log('Carta scartata', carta);
+                }
+            }
+
+            mischia(){
+                this.mazzo.sort((a, b) =>{
+                    /*
+                    a -> valore successivo dell'array
+                    b -> valore precedente dell'array
+                    Se il risultato dell'operazione è 0 -> Tiene la situazione attuale
+                    Se il risultato dell'operazione è negativa -> Mette a prima di b
+                    Se il risultato dell'operazione è positiva -> Mette b prima di a
+                    */
+                    return 0.5 - Math.random()
+                })
+                console.log('Mazzo mischiato', this.getMazzo());
+            }
+        }
+        const mazzo = new Mazzo();
+
+        document.querySelector('#pesca').addEventListener('click', (e)=>{
+            e.preventDefault();
+            mazzo.pesca();
+        })
+        document.querySelector('#mostraMano').addEventListener('click', (e)=>{
+            e.preventDefault();
+            console.log(mazzo.getMano());
+        })
+        document.querySelector('#mostraMazzo').addEventListener('click', (e)=>{
+            e.preventDefault();
+            console.log(mazzo.getMazzo());
+        })
+        document.querySelector('#scarta').addEventListener('click', (e)=>{
+            e.preventDefault();
+            mazzo.scarta();
+        })
+        document.querySelector('#mischia').addEventListener('click', (e)=>{
+            e.preventDefault();
+            mazzo.mischia();
+        })
+    </script>
+</body>
+</html>

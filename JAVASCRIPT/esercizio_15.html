@@ -1,0 +1,33 @@
+<!-- Mappare oggetto con JSON
+    l'obiettivo è di prendere un esempio di dati JSON che potremmo ricavare dagli API di Fidebase e convertirlo in un array di oggetti.
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Esercizio #15</title>
+  </head>
+  <body>
+    <script>
+      const data = {
+        users: {
+          wqiu237uh390fvx: {
+            firstname: "Luca",
+            lastname: "Rossi",
+          },
+          ksxz993ql617oer: {
+            firstname: "Marco",
+            lastname: "Verdi",
+          },
+        },
+      };
+      const users = [];
+
+      for (let key of Object.keys(data.users)) {
+        users.push({ id: key, ...data.users[key] });
+      }
+      console.log(users);
+    </script>
+  </body>
+</html>

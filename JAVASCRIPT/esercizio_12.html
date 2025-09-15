@@ -1,0 +1,95 @@
+<!-- Creare una semplice TODO list
+    L'obiettivo è creare una semplice TODO per la gestione delle cose da fare in una giornata o progetto,
+    inserendo un nuovo task si deve accodare agli altri già presenti e cliccandoci sopra deve essere rimosso perché considerato completato.
+
+    I task devono essere salvati nel localStorage del browser e ricaricati se presenti all'apertura della pagina.
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Esercizio #12</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="m-2 flex flex-col items-center">
+    <h1 class="font-bold text-lg">ToDo List</h1>
+    <div class="flex justify-center gap-2 items-center">
+      <label for="nuovoTask">Nuovo Task:</label>
+      <input type="text" name="nuovoTask" id="nuovoTask" class="border rounded-md" />
+      <button id="aggiungiTask" class="border bg-green-300 p-1 rounded-md"> Inserisci </button>
+      <button id="pulisciTasks" class="border bg-green-300 p-1 rounded-md"> Pulisci </button>
+    </div>
+    <ul id="todoList" class="list-disc w-[200px] mt-2"></ul>
+
+    <script>
+      class ToDoList {
+        constructor() {
+          this.lista = this.caricaTasks();
+        }
+
+        aggiungiTask(task) {
+          this.lista.push(task);
+          this.generaNuovoTask(task);
+          localStorage.setItem("tasks", JSON.stringify(this.lista));
+        }
+
+        generaNuovoTask(task) {
+          let li = document.createElement("li");
+          li.textContent = task;
+          li.className = "hover:bg-gray-200 cursor-pointer";
+          li.addEventListener("click", e => {
+            this.rimuoviTask(e);
+          });
+          document.querySelector("#todoList").appendChild(li);
+        }
+
+        rimuoviTask(e) {
+          const value = e.target.textContent;
+          e.srcElement.remove();
+          this.lista.splice(this.lista.indexOf(value), 1);
+          localStorage.setItem("tasks", JSON.stringify(this.lista));
+        }
+
+        pulisciTask() {
+          document.querySelector("#todoList").innerHTML = "";
+          this.lista = [];
+          localStorage.clear();
+        }
+
+        caricaTasks() {
+          return JSON.parse(localStorage.getItem("tasks")) ?? [];
+        }
+
+        generaTask() {
+          this.lista.forEach(task => {
+            this.generaNuovoTask(task);
+          });
+        }
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const toDoList = new ToDoList();
+        const input = document.querySelector("#nuovoTask");
+
+        document.querySelector("#aggiungiTask").addEventListener("click", e => {
+          e.preventDefault();
+          toDoList.aggiungiTask(input.value);
+          input.value = "";
+        });
+
+        document.querySelector("#nuovoTask").addEventListener("keypress", e => {
+          if (e.key == "Enter") {
+            toDoList.aggiungiTask(input.value);
+            input.value = "";
+          }
+        });
+
+        document.querySelector("#pulisciTasks").addEventListener("click", e => {
+          e.preventDefault();
+          toDoList.pulisciTask();
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,47 @@
+<!-- Creare un visualizzatore di colori
+    Dividere la pagina html in due sezioni.
+    Nella prima mettere una selezione di div colorati e la seconda lasciatela con un div vuoto. 
+    Passando sopra ai colori con il mouse dovrà riempire il div vuoto con lo stesso colore.
+
+    Se ai div d'esempio per i colori applicate il background tramite classe potreste dover utilizzare getComputedStyle(elemento).backgroundColor
+    anzichè elemento.style.backgroundColor per prenderne il valore. 
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esercizio #10</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div class="flex">
+        <div id="paletteColori" class="border-2 w-1/2 m-2 h-96 flex flex-wrap p-2 gap-2 item-center justify-center">
+        </div>
+        <div id="foglio" class="border-2 w-1/2 h-96 m-2"></div>
+    </div>
+    <script>
+        const colori = [
+            'bg-red-500',
+            'bg-cyan-500',
+            'bg-lime-500',
+            'bg-teal-500',
+            'bg-fuchsia-500',
+            'bg-rose-300',
+            'bg-emerald-500'
+        ]
+
+        colori.forEach(colore =>{
+            let bloccoColore = document.createElement('div');
+            bloccoColore.className = 'border-1 w-[6.25rem] h-10 ' + colore;
+            bloccoColore.addEventListener('mouseover', cambiaColore);
+            document.querySelector('#paletteColori').appendChild(bloccoColore);
+        });
+
+        function cambiaColore(e){
+            const colore = getComputedStyle(e.target).backgroundColor;
+            document.querySelector('#foglio').style.backgroundColor = colore;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!-- Popolare una tabella dinamicamente
+    Popolare una tabella in modo dinamico partendo da un array di oggetti contenente dei dati e da un elemento table in HTML.
+    Struttura dell'oggetto:
+    - ID
+    - Nome
+    - Cognome
+    - Email
+    - Codice fiscale
+    - Indirizzo
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esercizio #6</title>
+    <style>
+        th{
+            text-align: center;
+            border-right: 1px solid black;
+        }
+
+        td{
+            text-align: center;
+            border-right: 1px solid black;
+            padding: 0px 10px;
+        }
+    </style>
+</head>
+<body>
+    <table>
+        <thead>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Cognome</th>
+            <th>Email</th>
+            <th>Codice fiscale</th>
+            <th>Indirizzo</th>
+        </thead>
+    </table>
+    <script>
+        const elements = [
+            {
+                id: 1,
+                nome: 'Alberto',
+                cognome: 'Conte',
+                email: 'conte.alberto@gmail.com',
+                codFiscale: 'ABC01JKH654KJ4423F',
+                indirizzo: 'Via Roma 5, Milano (MI)'
+            },
+            {
+                id: 2,
+                nome: 'Luca',
+                cognome: 'Rossi',
+                email: 'lucarossi58@gmail.com',
+                codFiscale: 'KJ5634K6B53B6J5B',
+                indirizzo: 'Via Della Crusca 97/A, Rimini (RI)'
+            },
+            {
+                id: 3,
+                nome: 'Carlotta',
+                cognome: 'Destino',
+                email: 'diavoletta888@yahoo.com',
+                codFiscale: 'LK34IOKMN53KL4M5',
+                indirizzo: 'Strada della Repubblica 201, Palermo (PA)'
+            },
+            {
+                id: 1,
+                nome: 'Alberto',
+                cognome: 'Conte',
+                email: 'conte.alberto@gmail.com',
+                codFiscale: 'ABC01JKH654KJ4423F',
+                indirizzo: 'Via Roma 5, Milano (MI)'
+            },
+            {
+                id: 2,
+                nome: 'Luca',
+                cognome: 'Rossi',
+                email: 'lucarossi58@gmail.com',
+                codFiscale: 'KJ5634K6B53B6J5B',
+                indirizzo: 'Via Della Crusca 97/A, Rimini (RI)'
+            },
+            {
+                id: 3,
+                nome: 'Carlotta',
+                cognome: 'Destino',
+                email: 'diavoletta888@yahoo.com',
+                codFiscale: 'LK34IOKMN53KL4M5',
+                indirizzo: 'Strada della Repubblica 201, Palermo (PA)'
+            },
+            {
+                id: 1,
+                nome: 'Alberto',
+                cognome: 'Conte',
+                email: 'conte.alberto@gmail.com',
+                codFiscale: 'ABC01JKH654KJ4423F',
+                indirizzo: 'Via Roma 5, Milano (MI)'
+            },
+            {
+                id: 2,
+                nome: 'Luca',
+                cognome: 'Rossi',
+                email: 'lucarossi58@gmail.com',
+                codFiscale: 'KJ5634K6B53B6J5B',
+                indirizzo: 'Via Della Crusca 97/A, Rimini (RI)'
+            },
+            {
+                id: 3,
+                nome: 'Carlotta',
+                cognome: 'Destino',
+                email: 'diavoletta888@yahoo.com',
+                codFiscale: 'LK34IOKMN53KL4M5',
+                indirizzo: 'Strada della Repubblica 201, Palermo (PA)'
+            }
+        ];
+        const tabella = document.querySelector('table');
+        elements.forEach(element =>{
+            let row = tabella.insertRow();
+            Object.keys(element).forEach(key =>{
+                let cell = row.insertCell();
+                cell.appendChild(document.createTextNode(element[key]));
+            });
+        });
+    </script>
+</body>
+</html>

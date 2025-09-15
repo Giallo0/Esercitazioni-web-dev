@@ -1,0 +1,95 @@
+<!-- Dati da API esterni
+    Lo scopo di questo esercizio è quello di prendere dati da API esterni gratuiti ed utilizzarli per popolare la nostra applicazione.
+    In questo caso utilizziamo API per recuperare la lista di tutte le razze di cani e mostrarle in una select. 
+    Selezionando la razza di cane devono essere generate automaticamente le card con le immagini in ordine casuale.
+
+    Gli api a cui dovete dare riferimento si trovano qui: https://dog.ceo/dog-api/
+    Dovete leggere la documentazione e capire come strutturare le select con tutte le razze e richiedere le immagini per ciascuna razza scelta.
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Esercizio #18</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="m-2 flex flex-col justify-center items-center">
+    <h1 class="text-center font-bold text-4xl m-4">Lista razze canine</h1>
+    <select name="razzeCanine" id="selectRazze" class="border-2 rounded-lg p-2">
+      <!-- <option value="">---Seleziona una razza---</option> -->
+    </select>
+    <div id="container" class="flex flex-wrap gap-2 mt-5 justify-center items-center"></div>
+    <script>
+      const select = document.querySelector("#selectRazze");
+      const container = document.querySelector("#container");
+
+      fetch("https://dog.ceo/api/breeds/list/all")
+        .then(response => {
+          return response.json();
+        })
+        .then(json => {
+          generaOptions(json.message);
+          caricaDati(select.value);
+        });
+
+      function generaOptions(razze) {
+        for (let razza of Object.keys(razze)) {
+          let option;
+          if (razze[razza].length > 0) {
+            razze[razza].forEach(subRazza => {
+              option = document.createElement("option");
+              option.value = `${razza}-${subRazza}`;
+              option.textContent = `${razza} ${subRazza}`;
+            });
+          } else {
+            option = document.createElement("option");
+            option.value = razza;
+            option.textContent = razza;
+          }
+          select.appendChild(option);
+        }
+      }
+
+      select.addEventListener("change", e => {
+        caricaDati(e.target.value);
+      });
+
+      function caricaDati(bread) {
+        const [razza, subRazza] = bread.split("-");
+        if (razza != "") {
+          if (subRazza == undefined) {
+            fetch(`https://dog.ceo/api/breed/${razza}/images`)
+              .then(response => {
+                return response.json();
+              })
+              .then(json => {
+                generaCards(json.message);
+              });
+          } else {
+            fetch(`https://dog.ceo/api/breed/${razza}/${subRazza}/images`)
+              .then(response => {
+                return response.json();
+              })
+              .then(json => {
+                generaCards(json.message);
+              });
+          }
+        } else {
+          container.innerHTML = "";
+        }
+      }
+
+      function generaCards(images) {
+        container.innerHTML = "";
+        images.sort(() => Math.random() - 0.5);
+        images.forEach(image => {
+          const card = document.createElement("div");
+          card.className = "rounded-xl shadow-xl bg-white h-[200px] w-[200px] bg-cover";
+          card.style.backgroundImage = `url(${image})`;
+          container.appendChild(card);
+        });
+      }
+    </script>
+  </body>
+</html>

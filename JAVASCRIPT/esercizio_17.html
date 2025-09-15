@@ -1,0 +1,123 @@
+<!-- Drag and drop
+    L'obiettivo è creare una kanban con dei task trascinabili. Per Kanban si intende una lavagna divisa in colonne che mostra lo stato di avanzamento dei lavori.
+    Nell'esempio di oggi avremo 4 colonne per task da svolgere in coda, aperti, in revisione e completati.
+    La parte fondamentale dell'esercizio è inserire la logica di drag and drop per trascinare i task da una colonna all'altra
+
+    Parte opzionale: gestire non solo la parte grafica del drag and drop, ma anche i dati che effettivamente vengono spostati tra colonne. Potete gestirlo come un array di oggetti
+    (colonne) al cui interno c'è un array di oggetti (task). Trascinando il task su un'altra colonna bisogna spostare il task anche all'interno degli array corretti.
+
+    Parte opzionale extra: salvate la posizione dei task in modo permanente utilizzando il localstorage del browser ed al caricamento della pagina generate i task
+    nella loro posizione corrente.
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Esercizio #17</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="p-10 flex flex-row h-screen justify-center gap-4">
+    <div class="colonna flex flex-col justify-start w-96 p-10 rounded-xl bg-slate-200 gap-4" data-column="0">
+      <h1 class="text-center text-3xl font-bold">In coda</h1>
+    </div>
+    <div class="colonna flex flex-col justify-start w-96 p-10 rounded-xl bg-slate-200 gap-4" data-column="1">
+      <h1 class="text-center text-3xl font-bold">Aperti</h1>
+    </div>
+    <div class="colonna flex flex-col justify-start w-96 p-10 rounded-xl bg-slate-200 gap-4" data-column="2">
+      <h1 class="text-center text-3xl font-bold">In revisione</h1>
+    </div>
+    <div class="colonna flex flex-col justify-start w-96 p-10 rounded-xl bg-slate-200 gap-4" data-column="3">
+      <h1 class="text-center text-3xl font-bold">Completati</h1>
+    </div>
+    <script>
+      const placeholderData = [
+        {
+          id: 0,
+          name: "In coda",
+          tasks: [
+            { id: 0, name: "Rispondere alla mail" },
+            { id: 1, name: "Allenare le gambe" },
+            { id: 2, name: "Ricaricare credito telefono" },
+            { id: 3, name: "Prenotare dentista" },
+            { id: 4, name: "Rispondere agli SMS" },
+          ],
+        },
+        {
+          id: 1,
+          name: "Aperti",
+          tasks: [],
+        },
+        {
+          id: 2,
+          name: "In revisione",
+          tasks: [],
+        },
+        {
+          id: 3,
+          name: "Completati",
+          tasks: [],
+        },
+      ];
+      let data = localStorage.getItem("data") ? JSON.parse(localStorage.getItem("data")) : placeholderData;
+      generateTasks();
+
+      const tasks = document.querySelectorAll(".task");
+      const colonne = document.querySelectorAll(".colonna");
+      let dragitem = null;
+      let dragData = null;
+
+      colonne.forEach(colonna => {
+        colonna.addEventListener("dragover", e => {
+          e.preventDefault();
+        });
+
+        colonna.addEventListener("dragenter", e => {});
+
+        colonna.addEventListener("dragleave", e => {});
+
+        colonna.addEventListener("drop", e => {
+          e.target.append(dragitem);
+        });
+      });
+
+      tasks.forEach(task => {
+        task.addEventListener("dragstart", e => {
+          setTimeout(() => e.target.classList.add("hidden"), 0);
+          dragitem = e.target;
+
+          const indexColonna = data.findIndex(colonna => {
+            return colonna.id == e.target.parentElement.getAttribute("data-column");
+          });
+          const indexTask = data[indexColonna].tasks.findIndex(task => {
+            return task.id == e.target.getAttribute("data-task");
+          });
+          dragData = data[indexColonna].tasks.splice(indexTask, 1)[0];
+          localStorage.setItem("data", JSON.stringify(data));
+        });
+
+        task.addEventListener("dragend", e => {
+          e.target.classList.remove("hidden");
+          dragitem = null;
+
+          data[e.target.parentElement.getAttribute("data-column")].tasks.push(dragData);
+          localStorage.setItem("data", JSON.stringify(data));
+        });
+      });
+
+      function generateTasks() {
+        data.forEach(colonna => {
+          const targetColumn = document.querySelector(`[data-column='${colonna.id}']`);
+          colonna.tasks.forEach(task => {
+            const element = document.createElement("div");
+            element.className = "task p-4 rounded-xl shadow-xl bg-white";
+            element.setAttribute("draggable", true);
+            element.setAttribute("data-task", task.id);
+            element.textContent = task.name;
+            targetColumn.appendChild(element);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

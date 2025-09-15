@@ -1,0 +1,27 @@
+<!-- Elementi pari e dispari in un array
+    Creare un array con un numero casuale di numeri interi e per ognuno di essi mandare a schermo se si tratta di un numero pari o dispari.
+    Il numero casuale degli elementi deve essere generato dal programma e non messo manualmente.
+    Inoltre, si può scegliere se mandare a schermo con semplici console.log oppure se creare elementi da inserire nell'HTML.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esercizio #2</title>
+</head>
+<body>
+    <script>
+        const dimensioneArray = Math.floor(Math.random() * 10 + 1);
+        let arrayNumeri = [];
+
+        for(let i=0; i<dimensioneArray; i++){
+            arrayNumeri.push(Math.floor(Math.random() * 100));
+        }
+
+        arrayNumeri.forEach(numero=>{
+            console.log(`Il numero ${numero} è ${numero % 2 == 0 ? 'pari' : 'dispari'}`);
+        })
+    </script>
+</body>
+</html>

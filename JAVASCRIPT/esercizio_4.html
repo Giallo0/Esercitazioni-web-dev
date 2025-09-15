@@ -1,0 +1,59 @@
+<!-- Differenza tra due date in giorni
+    Create due input html di tipo datepicker, ed al click di un bottone calcolate la differenza tra la data2 e la data1.
+    Assicurarsi che la seconda data sia maggiore della prima.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esercizio #4</title>
+    <style>
+        .section{
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="section">
+        <label for="data1">Data 1</label>
+        <input id="data1" name="data1" type="date">
+    </div>
+
+    <div class="section">
+        <label for="data2">Data 2</label>
+        <input id="data2" name="data2" type="date">
+    </div>
+
+    <div class="section">
+        <button id="calcola">Calcola differenza</button>
+    </div>
+
+    <div class="section">
+        <label id="risultato"></label>
+    </div>
+    
+    <script>
+        const input1 = document.querySelector('#data1');
+        const input2 = document.querySelector('#data2');
+        const calcola = document.querySelector('#calcola');
+        const risultato = document.querySelector('#risultato');
+
+        calcola.addEventListener('click', (e)=>{
+            e.preventDefault();
+
+            const data1 = new Date(input1.value).getTime();
+            const data2 = new Date(input2.value).getTime();
+            
+            if (input1.value.length == 0 || input2.value.length == 0){
+                risultato.textContent = 'Date non valorizzate';
+            }else if(data2 >= data1){
+                const diff = data2 - data1;
+                risultato.textContent = (`La differenza in giorni è: ${diff / (1000 * 60 * 60 * 24)}`);
+            }else{
+                risultato.textContent = 'Data 1 è maggiore di Data 2';
+            }
+        });
+    </script>
+</body>
+</html>

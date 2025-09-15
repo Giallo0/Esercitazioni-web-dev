@@ -1,0 +1,97 @@
+<!-- Generatore password complesse
+    Creare un generatore di password complesse. Per fare ciò dovete creare nell'HTML un input numero per definire la lunghezza
+    della password. In aggiunta dovete dare la possibilità all'utente di scegliere la password deve contenere caratteri minuscoli,
+    numeri e speciali (in modo separato).
+
+    Limitatevi ad un banale bottone per generare la password a meno che vogliate fare le cose in tempo reale con la scelta dell'utente.
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Esercizio #13</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="p-2 flex flex-col items-center h-screen justify-center">
+    <div class="border-4 rounded-2xl p-4">
+      <h2 class="text-center font-bold text-2xl mb-3">Genera password</h2>
+      <div>
+        <label for="lunghezza">Lunghezza password:</label>
+        <input type="number" id="lunghezza" name="lunghezza" min="0" step="1" max="99" class="border-2 rounded-md" />
+      </div>
+
+      <div>
+        <input type="checkbox" id="minuscole" name="minuscole" />
+        <label for="minuscole">Comprendi minuscole</label>
+      </div>
+
+      <div>
+        <input type="checkbox" id="maiuscole" name="maiuscole" />
+        <label for="maiuscole">Comprendi maiuscole</label>
+      </div>
+
+      <div>
+        <input type="checkbox" id="numeri" name="numeri" />
+        <label for="numeri">Comprendi numeri</label>
+      </div>
+
+      <div>
+        <input type="checkbox" id="speciali" name="speciali" />
+        <label for="speciali">Comprendi caratteri speciali</label>
+      </div>
+
+      <!-- <div class="flex justify-center mt-5 mb-5">
+        <button id="generaPwd" class="border-2 rounded-full p-1 pr-3 pl-3">
+          Genera
+        </button>
+      </div> -->
+
+      <div>
+        <label for="pwdGenerata">Password generata:</label>
+        <input type="text" id="pwdGenerata" name="pwdGenerata" class="border-2 rounded-md" readonly />
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const lunghezza = document.querySelector("#lunghezza");
+        const minuscole = document.querySelector("#minuscole");
+        const maiuscole = document.querySelector("#maiuscole");
+        const numeri = document.querySelector("#numeri");
+        const speciali = document.querySelector("#speciali");
+        const listaCaratteriMinuscoli = "abcdefghijklmnopqrstuvwxyz";
+        const listaCaratteriMaiuscoli = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        const listaCaratteriNumerici = "0123456789";
+        const listaCaratteriSpeciali = "!$%@#?&";
+
+        // document
+        //   .querySelector("#generaPwd")
+        //   .addEventListener("click", generaPassword);
+
+        lunghezza.addEventListener("change", generaPassword);
+        lunghezza.addEventListener("input", generaPassword);
+        minuscole.addEventListener("change", generaPassword);
+        maiuscole.addEventListener("change", generaPassword);
+        numeri.addEventListener("change", generaPassword);
+        speciali.addEventListener("change", generaPassword);
+
+        function generaPassword() {
+          let stringaIniziale = "";
+          let password = "";
+
+          if (minuscole.checked) stringaIniziale += listaCaratteriMinuscoli;
+          if (maiuscole.checked) stringaIniziale += listaCaratteriMaiuscoli;
+          if (numeri.checked) stringaIniziale += listaCaratteriNumerici;
+          if (speciali.checked) stringaIniziale += listaCaratteriSpeciali;
+
+          for (let i = 0; i < lunghezza.value; i++) {
+            password += stringaIniziale.charAt(Math.floor(Math.random() * stringaIniziale.length));
+          }
+
+          document.querySelector("#pwdGenerata").value = password;
+        }
+      });
+    </script>
+  </body>
+</html>

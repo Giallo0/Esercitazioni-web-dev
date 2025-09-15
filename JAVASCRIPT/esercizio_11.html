@@ -1,0 +1,63 @@
+<!-- Creare una finestra Dialog (Modal)
+    Creare una versione molto grezza di una Modale che compaia al click di un bottone.
+    Aggiungere alla finestra un bottone per chiuderlo.
+
+    Per modal si intende la finestra popup che compare al centro dello schermo per informazioni e/o azioni aggiuntive da compiere.
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Esercizio #11</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="m-5 flex flex-col items-center justify-center bg-gray-200 gap-5">
+    <button
+      onclick="apriPopup()"
+      class="border-2 border-cyan-400 p-3 rounded-lg drop-shadow-md bg-cyan-300"
+    >
+      Apri popup
+    </button>
+    <div
+      id="modal"
+      class="w-[500px] h-[300px] border border-black rounded-lg fixed top-2 bg-gray-400 p-2"
+    >
+      <button onclick="chiudiPopup()" class="float-right">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18 18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+      <h1 class="font-black m-2 text-red-500">Attenzione</h1>
+      <p class="font-light">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Esse, possimus
+        dignissimos vitae eaque, libero nulla atque in cupiditate quos dolore
+        maxime similique illum eius, architecto quod dolor. Tenetur, repellat
+        consectetur.
+      </p>
+    </div>
+
+    <script>
+      function apriPopup() {
+        document.querySelector("#modal").classList.remove("hidden");
+        document.querySelector("body").classList.add("bg-gray-600");
+      }
+
+      function chiudiPopup() {
+        document.querySelector("#modal").classList.add("hidden");
+        document.querySelector("body").classList.remove("bg-gray-600");
+      }
+    </script>
+  </body>
+</html>

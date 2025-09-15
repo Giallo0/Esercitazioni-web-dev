@@ -1,0 +1,54 @@
+<!-- Barra di ricerca con autocomplete
+    Creare una rudimentale barra di ricerca implementando la funzione di autocompletamento.
+    In pratica mentre scrivete nel campo il sistema deve suggerire sotto dei nomi presi da un array
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esercizio #9</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="m-5">
+    <input name="cerca" id="cerca" placeholder="Cerca" class="border-2 p-2">
+    <div id="risultato" class="border-2 p-2"></div> 
+
+    <script>
+        const barraCerca = document.querySelector('#cerca');
+        const risultato = document.querySelector('#risultato');
+
+        const nomi = [
+            'Andrea',
+            'Luca',
+            'Mattia',
+            'Ginevra',
+            'Alessia',
+            'Antonio'
+        ]
+
+        barraCerca.addEventListener('keyup', (e) =>{
+            const termini = autoMatch(e.target.value);
+            let nomiConsigliati = '';
+            termini.forEach(termine =>{
+                nomiConsigliati += `<li class="hover:bg-gray-200 cursor-pointer" onclick="seleziona(event)">${termine}</li>`;
+            });
+            risultato.innerHTML = `<ul>${nomiConsigliati}</ul>`;
+        });
+
+        function autoMatch(valore){
+            if (valore == '') return [];
+            
+            const reg = new RegExp(valore.toLowerCase());
+            return nomi.filter(nome =>{
+                if (nome.toLowerCase().match(reg)) return nome
+            })
+        }
+
+        function seleziona(e){
+            barraCerca.value = e.target.textContent;
+            risultato.innerHTML = '';
+        }
+    </script>
+</body>
+</html>

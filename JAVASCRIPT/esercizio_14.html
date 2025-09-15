@@ -1,0 +1,110 @@
+<!-- Modifica interattiva di una Card
+    Partendo da un codice html e CSS per una Card di base, dovete costruire una piccola applicazione che permetta all'utente di modificarla a piacimento.
+
+    L'utente deve poter inserire l'URL dell'immagine di background, combinare colore del titolo e del paragrafo, infine poter definire con valori numerici il padding x
+    (sinistro e destro) e padding y (alto e basso).
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Esercizio #14</title>
+    <style>
+      body {
+        background-color: grey;
+      }
+      #card {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+        background-color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <section>
+      <div>
+        <label for="urlImmagine">URL:</label>
+        <input type="text" name="urlImmagine" id="urlImmagine" />
+      </div>
+      <div>
+        <label for="coloreTitolo">Colore titolo:</label>
+        <input type="color" name="coloreTitolo" id="coloreTitolo" />
+      </div>
+      <div>
+        <label for="coloreParagrafo">Colore paragrafo:</label>
+        <input type="color" name="coloreParagrafo" id="coloreParagrafo" />
+      </div>
+      <div>
+        <label for="padX">Padding X:</label>
+        <input type="number" name="padX" id="padX" />
+      </div>
+      <div>
+        <label for="padY">Padding Y:</label>
+        <input type="number" name="padY" id="padY" />
+      </div>
+      <div>
+        <label for="rounded">Rounded:</label>
+        <input type="number" name="rounded" id="rounded" />
+      </div>
+    </section>
+
+    <div id="card">
+      <img
+        src="https://plus.unsplash.com/premium_photo-1661914240950-b0124f20a5c1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      />
+      <div>
+        <h2>Titolo della card</h2>
+        <p>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Maiores eius fugiat iusto id, error eum fugit asperiores provident nemo
+          praesentium sit quisquam ipsam, doloremque veritatis vitae voluptatibus eligendi recusandae corrupti.
+        </p>
+      </div>
+    </div>
+    <script>
+      const url = document.querySelector("#urlImmagine");
+      const coloreTitolo = document.querySelector("#coloreTitolo");
+      const coloreParagrafo = document.querySelector("#coloreParagrafo");
+      const padX = document.querySelector("#padX");
+      const padY = document.querySelector("#padY");
+      const rounded = document.querySelector("#rounded");
+
+      url.addEventListener("change", e => {
+        const immagine = document.querySelector("#card img");
+        immagine.setAttribute("src", e.target.value);
+      });
+
+      coloreTitolo.addEventListener("input", e => {
+        const titolo = document.querySelector("#card h2");
+        titolo.style.color = e.target.value;
+      });
+
+      coloreParagrafo.addEventListener("input", e => {
+        const paragrafo = document.querySelector("#card p");
+        paragrafo.style.color = e.target.value;
+      });
+
+      padX.addEventListener("change", e => {
+        const contenuto = document.querySelector("#card div");
+        contenuto.style.paddingRight = e.target.value + "px";
+        contenuto.style.paddingLeft = e.target.value + "px";
+      });
+
+      padY.addEventListener("change", e => {
+        const contenuto = document.querySelector("#card div");
+        contenuto.style.paddingTop = e.target.value + "px";
+        contenuto.style.paddingBottom = e.target.value + "px";
+      });
+
+      rounded.addEventListener("change", e => {
+        const card = document.querySelector("#card");
+        const immagine = document.querySelector("#card img");
+        card.style.borderRadius = e.target.value + "px";
+        immagine.style.borderTopLeftRadius = e.target.value + "px";
+        immagine.style.borderTopRightRadius = e.target.value + "px";
+      });
+    </script>
+  </body>
+</html>

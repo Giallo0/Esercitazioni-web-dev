@@ -1,0 +1,30 @@
+<!-- Sommare elementi di un array
+    Creare un array di x elementi casuali e calcolate la somma totale. 
+    L'array deve essere generato casualmente per numero di elementi ed il loro valore (fare riferimento alla classe Math).
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esercizio #3</title>
+</head>
+<body>
+    <script>
+        const valoriArray = Math.floor(Math.random() * 8 + 2);
+        let array = [];
+
+        for(let i=0; i<valoriArray; i++){
+            array.push(Math.floor(Math.random() * 99 + 1))
+        }
+
+        let sum = 0;
+        array.forEach(num => {
+            sum += num;
+        });
+        
+        console.log(`Numero elementi array: ${valoriArray}`);
+        console.log(array);
+        console.log(`Somma numeri array: ${sum}`);
+    </script>
+</body>
+</html>

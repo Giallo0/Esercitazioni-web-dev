@@ -1,0 +1,71 @@
+<!-- Pokedex filtrabile
+    L'obiettivo è quello di mandare a schermo i dati del pokedex della prima generazione contenuti del file JSON e creare una barra di ricerca per filtrarli.
+
+    i dati in JSON ed immagini sono reperibili su github a questo link: https://github.com/fanzeyi/pokemon.json
+
+    Per prima cosa dovete cambiare il file JSON dei pokemon,limitare i dati che prendete alla prima generazione e creare delle semplici card con immagine e nome del Pokemon.
+    Dovete poi creare una rudimentale barra di ricerca. Questa barra di ricerca dovrà permettere di cercare per nome oppure per tipo utilizzando il prefisso type.
+-->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Esercizio #16</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="m-2">
+    <div class="flex justify-center items-center flex-col m-8">
+      <h1 class="text-4xl font-bold">Pokedex</h1>
+      <input type="text" id="search" class="rounded-lg border-2 border-slate-500 mt-5 w-[700px] h-16 p-2 text-3xl font-bold" placeholder="Cerca" />
+    </div>
+    <div id="pokedex" class="flex flex-wrap gap-2"></div>
+  </body>
+  <script>
+    const pokedex = document.querySelector("#pokedex");
+    let pokemon;
+    fetch("pokemon.json-master/pokedex.json")
+      .then(response => {
+        return response.json();
+      })
+      .then(json => {
+        pokemon = json.slice(0, 151);
+        creaCard(pokemon);
+        console.log(pokemon);
+      })
+      .catch(err => {});
+
+    function creaCard(listaPokemon) {
+      pokedex.innerHTML = "";
+      listaPokemon.forEach(pokemon => {
+        const card = `<div class="inline-block rounded-xl m-auto max-w-[200px] p-5 hover:bg-slate-200 cursor-pointer">
+            <img src="pokemon.json-master/images/${formatID(pokemon.id)}.png" />
+            <h3 class="text-center font-bold text-xl">${pokemon.name.english}</h3></div>`;
+        pokedex.insertAdjacentHTML("beforeend", card);
+      });
+    }
+
+    function formatID(id) {
+      if (id.toString().length == 1) return `00${id}`;
+      if (id.toString().length == 2) return `0${id}`;
+      return id;
+    }
+
+    document.querySelector("#search").addEventListener("keyup", e => {
+      let valore = e.target.value;
+      let pokemonFiltrati = [];
+      if (valore.startsWith("type:")) {
+        valore = valore.replace("type:", "");
+        valore = valore.charAt(0).toUpperCase() + valore.slice(1);
+        pokemonFiltrati = pokemon.filter(pkmn => {
+          return pkmn.type.indexOf(valore) != -1;
+        });
+      } else {
+        pokemonFiltrati = pokemon.filter(pkmn => {
+          return pkmn.name.english.toLowerCase().startsWith(valore.toLowerCase());
+        });
+      }
+      creaCard(pokemonFiltrati);
+    });
+  </script>
+</html>

@@ -1,0 +1,69 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Compito #0</title>
+  </head>
+  <body class="bg-black text-orange-200 p-9">
+    <h1 class="font-black text-4xl text-center">Lista di cocktails</h1>
+    <input
+      id="cerca"
+      placeholder="Iniziale"
+      maxlength="1"
+      class="p-2 rounded-md text-black"
+    />
+    <div id="container" class="flex flex-wrap gap-3 mt-9"></div>
+
+    <script>
+      let lettera = "";
+      document.querySelector("#cerca").addEventListener("keyup", (e) => {
+        if (lettera != e.target.value) {
+          lettera = e.target.value;
+          document.querySelector("#container").innerHTML = "";
+          const url =
+            "https://www.thecocktaildb.com/api/json/v1/1/search.php?f=" +
+            lettera;
+          fetch(url)
+            .then((response) => {
+              return response.json();
+            })
+            .then((json) => {
+              cocktail = json;
+              creaCard(cocktail);
+            })
+            .catch((e) => {
+              console.log("Errore: ", e);
+            });
+        }
+      });
+
+      function creaCard(cocktail) {
+        cocktail.drinks.forEach((drink) => {
+          let cardLink = document.createElement("a");
+          cardLink.setAttribute(
+            "href",
+            "./cocktailDetails.html?id=" + drink.idDrink
+          );
+          cardLink.setAttribute("target", "_blank");
+
+          let card = document.createElement("div");
+          card.setAttribute("id", drink.idDrink);
+          card.className = "flex flex-col w-[20rem]";
+          cardLink.appendChild(card);
+
+          let cardImage = document.createElement("img");
+          cardImage.setAttribute("src", drink.strDrinkThumb);
+          card.appendChild(cardImage);
+
+          let cardTitle = document.createElement("h4");
+          cardTitle.className = "text-center font-bold";
+          cardTitle.innerText = drink.strDrink;
+          card.appendChild(cardTitle);
+
+          document.querySelector("#container").appendChild(cardLink);
+        });
+      }
+    </script>
+  </body>
+</html>
